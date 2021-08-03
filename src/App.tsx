@@ -1,26 +1,52 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from "react";
+import { Route, RouteComponentProps, Switch } from "react-router-dom";
+import ProtectedRoute from "./components/ProtectedRoute";
+import { auth } from "./config/firebase";
+import logging from "./config/logging";
+import routes from "./config/routes";
 
-function App() {
+export interface IApplicationProps {}
+
+const Application: React.FunctionComponent<IApplicationProps> = (props) => {
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        logging.info("User detected.");
+      } else {
+        logging.info("No user detected");
+      }
+
+      setLoading(false);
+    });
+  }, []);
+
+  if (loading) return <div>loading...</div>;
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Switch>
+        {routes.map((route, index) => (
+          <Route
+            key={index}
+            path={route.path}
+            exact={route.exact}
+            render={(routeProps: RouteComponentProps<any>) => {
+              if (route.protected)
+                return (
+                  <ProtectedRoute>
+                    <route.component {...routeProps} />
+                  </ProtectedRoute>
+                );
+
+              return <route.component {...routeProps} />;
+            }}
+          />
+        ))}
+      </Switch>
     </div>
   );
-}
+};
 
-export default App;
+export default Application;
