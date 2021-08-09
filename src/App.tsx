@@ -25,7 +25,6 @@ const Application: React.FunctionComponent<IApplicationProps> = (props) => {
   if (loading) return <div>loading...</div>;
 
   return (
-    <div>
       <Switch>
         {routes.map((route, index) => (
           <Route
@@ -45,7 +44,6 @@ const Application: React.FunctionComponent<IApplicationProps> = (props) => {
           />
         ))}
       </Switch>
-    </div>
   );
 };
 

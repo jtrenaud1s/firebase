@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import { Button, FormControl, FormGroup } from "react-bootstrap";
+import Box from "../../components/Box";
+import CenterContainer from "../../components/CenterContainer";
 import { auth } from "../../config/firebase";
 import logging from "../../config/logging";
 import IPageProps from "../../interfaces/IPageProps";
@@ -29,29 +32,37 @@ const ForgotPasswordPage: React.FunctionComponent<IPageProps> = (props) => {
   };
 
   return (
-    <div>
-      {sent ? (
-        <p>A link has been sent to your email with instructions.</p>
-      ) : (
-        <>
-          <p>Please enter your email.</p>
-          <div>
-            <input
-              type="email"
-              name="email"
-              id="email"
-              placeholder="Email Address"
-              onChange={(event) => setEmail(event.target.value)}
-              value={email}
-            />
-          </div>
-          <button disabled={sending} onClick={() => resetPasswordRequest()}>
-            Send Reset Link
-          </button>
-          <span>{error}</span>
-        </>
-      )}
-    </div>
+    <CenterContainer>
+      <div className="d-flex flex-column w-25">
+        <Box title="Reset Password">
+          {sent ? (
+            <p>A link has been sent to your email with instructions.</p>
+          ) : (
+            <>
+              <p>Please enter your email.</p>
+              <FormGroup className="w-100">
+                <FormControl
+                  type="email"
+                  name="email"
+                  id="email"
+                  className="mb-2"
+                  placeholder="Email Address"
+                  onChange={(event) => setEmail(event.target.value)}
+                  value={email}
+                />
+              </FormGroup>
+              <Button
+                className="w-100"
+                disabled={sending}
+                onClick={() => resetPasswordRequest()}>
+                Send Reset Link
+              </Button>
+              <span>{error}</span>
+            </>
+          )}
+        </Box>
+      </div>
+    </CenterContainer>
   );
 };
 

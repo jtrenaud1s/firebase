@@ -1,12 +1,11 @@
-import styled from "styled-components";
-import tw from "twin.macro";
+import React from 'react'
 
-export const CenterContainer = styled.div`
-  ${tw`
-      flex
-      justify-center
-      items-center
-      w-screen
-      h-screen
-    `}
-`;
+const CenterContainer: React.FC = (props) => {
+  return (
+    <div className="w-100 vh-100 d-flex flex-column align-items-center justify-content-center">
+      {props.children}
+    </div>
+  );
+}
+
+export default CenterContainer

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Firebase from "../config/firebase";
 import IPageProps from "../interfaces/IPageProps";
+import Layout from "./Layout/Layout";
 
 const useStuff = () => {
   const [stuff, setStuff] = useState<any>([])
@@ -26,20 +27,17 @@ const HomePage: React.FunctionComponent<IPageProps> = (props) => {
 
 
   return (
-    <div>
-      <p>Welcome to this page that is protected by Friebase auth!</p>
+    <Layout title="Dashboard">
+      <p>Bing Bong</p>
       <p>
         Change your password <Link to="/change">here</Link>.
-      </p>
-      <p>
-        Click <Link to="/logout">here</Link> to logout.
       </p>
       <ol>
         {stuff.map((item: any) => {
           return <li key={item.id}>{item.name}</li>
         })}
       </ol>
-    </div>
+    </Layout>
   );
 };
 

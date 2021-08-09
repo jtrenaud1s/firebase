@@ -4,6 +4,9 @@ import { auth } from "../../config/firebase";
 import logging from "../../config/logging";
 import queryString from "querystring";
 import IPageProps from "../../interfaces/IPageProps";
+import CenterContainer from "../../components/CenterContainer";
+import { Form } from "react-bootstrap";
+import Box from "../../components/Box";
 
 const ResetPasswordPage: React.FunctionComponent<
   IPageProps & RouteComponentProps
@@ -81,48 +84,49 @@ const ResetPasswordPage: React.FunctionComponent<
   };
 
   return (
-    <div>
-      <h1>Reset Password</h1>
-      {verifying ? (
-        <span>loading</span>
-      ) : (
-        <>
-          {verified ? (
-            <>
-              <p>Please enter a strong password.</p>
-              <div>
-                <input
-                  type="password"
-                  name="password"
-                  id="password"
-                  placeholder="Enter Password"
-                  onChange={(event) => setPassword(event.target.value)}
-                  value={password}
-                />
-              </div>
-              <div>
-                <input
-                  type="password"
-                  name="confirm"
-                  id="confirm"
-                  placeholder="Confirm Password"
-                  onChange={(event) => setConfirm(event.target.value)}
-                  value={confirm}
-                />
-              </div>
-              <button
-                disabled={changing}
-                onClick={() => passwordResetRequest()}>
-                Reset Password
-              </button>
-              <span>{error}</span>
-            </>
-          ) : (
-            <p>Invalid link.</p>
-          )}
-        </>
-      )}
-    </div>
+    <CenterContainer>
+      <Box title="Reset Password">
+        {verifying ? (
+          <span>loading</span>
+        ) : (
+          <>
+            {verified ? (
+              <>
+                <p>Please enter a strong password.</p>
+                <Form.Group>
+                  <Form.Control
+                    type="password"
+                    name="password"
+                    id="password"
+                    placeholder="Enter Password"
+                    onChange={(event) => setPassword(event.target.value)}
+                    value={password}
+                  />
+                </Form.Group>
+                <div>
+                  <input
+                    type="password"
+                    name="confirm"
+                    id="confirm"
+                    placeholder="Confirm Password"
+                    onChange={(event) => setConfirm(event.target.value)}
+                    value={confirm}
+                  />
+                </div>
+                <button
+                  disabled={changing}
+                  onClick={() => passwordResetRequest()}>
+                  Reset Password
+                </button>
+                <span>{error}</span>
+              </>
+            ) : (
+              <p>Invalid link.</p>
+            )}
+          </>
+        )}
+      </Box>
+    </CenterContainer>
   );
 };
 

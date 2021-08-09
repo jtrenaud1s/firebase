@@ -1,12 +1,9 @@
 import React, { useState } from "react";
+import { Button, FormControl, FormGroup, FormLabel } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
 import { auth } from "../../config/firebase";
 import logging from "../../config/logging";
-import { Button } from "../Button";
-import { Card } from "../Card";
-import { CenterContainer } from "../CenterContainer";
-import { H1 } from "../Heading/H1";
-import { Input } from "../Input";
+import Box from "../Box";
 
 const SignUpBox: React.FC = () => {
   const [registering, setRegistering] = useState<boolean>(false);
@@ -44,49 +41,57 @@ const SignUpBox: React.FC = () => {
   };
 
   return (
-    <CenterContainer className="flex flex-col">
-      <Card className="items-center">
-        <H1 className="text-center">Sign Up</H1>
-        <Input
-          type="email"
-          name="email"
-          id="email"
-          className="mb-4"
-          placeholder="Email"
-          onChange={(e) => setEmail(e.target.value)}
-          value={email}
-        />
-        <Input
-          type="password"
-          name="password"
-          id="password"
-          className="mb-4"
-          placeholder="Password"
-          onChange={(e) => setPassword(e.target.value)}
-          value={password}
-        />
-        <Input
-          type="password"
-          name="confirm"
-          id="confirm"
-          className="mb-4"
-          placeholder="Confirm Password"
-          onChange={(e) => setConfirm(e.target.value)}
-          value={confirm}
-        />
+    <div className="d-flex flex-column w-25">
+      <Box title="Sign Up">
+        <FormGroup className="w-100">
+          <FormLabel>Email</FormLabel>
+          <FormControl
+            type="email"
+            name="email"
+            id="email"
+            className="mb-2"
+            placeholder="you@school.edu"
+            onChange={(event) => setEmail(event.target.value)}
+            value={email}
+          />
+        </FormGroup>
+        <FormGroup className="w-100">
+          <FormLabel>Password</FormLabel>
+          <FormControl
+            type="password"
+            name="password"
+            id="password"
+            placeholder="..."
+            className="mb-2"
+            onChange={(e) => setPassword(e.target.value)}
+            value={password}
+          />
+        </FormGroup>
+        <FormGroup className="w-100">
+          <FormLabel>Confirm Password</FormLabel>
+          <FormControl
+            type="password"
+            name="confirm"
+            id="confirm"
+            className="mb-2"
+            placeholder="Confirm Password"
+            onChange={(e) => setConfirm(e.target.value)}
+            value={confirm}
+          />
+        </FormGroup>
         <Button
-          className="w-full"
+          className="w-100"
           disabled={registering}
           onClick={() => signUpWithEmailAndPassword()}>
           Sign Up
         </Button>
-      </Card>
+      </Box>
       <small>
-        <p className="mt-4">
+        <p className="mt-4 text-center">
           Already a member? <Link to="/login">Login!</Link>
         </p>
       </small>
-    </CenterContainer>
+    </div>
   );
 };
 

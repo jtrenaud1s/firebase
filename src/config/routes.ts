@@ -12,7 +12,7 @@ const routes: IRoute[] = [
     path: "/",
     exact: true,
     component: Home,
-    name: "Home Page",
+    name: "Dashboard",
     protected: true,
   },
   {
