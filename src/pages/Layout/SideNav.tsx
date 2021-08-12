@@ -4,18 +4,19 @@ import { NavLink } from "react-router-dom";
 import Profile from "../../components/Profile";
 
 import avatar from "../../assets/img/avatar.jpg";
-import { auth } from "../../config/firebase";
+import { useContext } from "react";
+import { AuthContext } from "../../contexts/AuthContext";
 
 const SideNav = () => {
   
-  const user = auth.currentUser
+  const {user} = useContext(AuthContext)
 
   return (
     <Navbar.Collapse
       id="sidebarMenu"
       className="col-md-3 col-lg-2 d-md-block bg-light sidebar">
       <div className="position-sticky pt-3">
-        <Profile img={avatar} name={user?.displayName ? user.displayName : "Guest"} role="SuperUser" />
+        <Profile img={avatar} name={`${user?.firstName} ${user?.lastName}`} role="SuperUser" />
         <Nav className="flex-column">
           <Nav.Link
             active={true}

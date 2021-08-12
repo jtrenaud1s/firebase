@@ -1,30 +1,13 @@
-import React, { useEffect, useState } from "react";
 import { Route, RouteComponentProps, Switch } from "react-router-dom";
 import ProtectedRoute from "./components/ProtectedRoute";
-import { auth } from "./config/firebase";
-import logging from "./config/logging";
 import routes from "./config/routes";
+import AuthProvider from "./contexts/AuthContext";
 
 export interface IApplicationProps {}
 
 const Application: React.FunctionComponent<IApplicationProps> = (props) => {
-  const [loading, setLoading] = useState<boolean>(true);
-
-  useEffect(() => {
-    auth.onAuthStateChanged((user) => {
-      if (user) {
-        logging.info("User detected.");
-      } else {
-        logging.info("No user detected");
-      }
-
-      setLoading(false);
-    });
-  }, []);
-
-  if (loading) return <div>loading...</div>;
-
   return (
+    <AuthProvider>
       <Switch>
         {routes.map((route, index) => (
           <Route
@@ -44,6 +27,7 @@ const Application: React.FunctionComponent<IApplicationProps> = (props) => {
           />
         ))}
       </Switch>
+    </AuthProvider>
   );
 };
 

@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
-import { Link, useHistory } from "react-router-dom";
+import { Link, Redirect, useHistory } from "react-router-dom";
 import { auth } from "../../config/firebase";
 import logging from "../../config/logging";
+import { useAuth } from "../../hooks/useAuth";
 import Box from "../Box";
 //import firebase from "firebase";
 //import { SignInWithSocialMedia } from "../../pages/auth/modules";
@@ -13,7 +14,12 @@ const LoginBox: React.FC = (props) => {
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
 
+  const [user] = useAuth();
   const history = useHistory();
+
+  if (user) {
+    return <Redirect to="/" />;
+  }
 
   const signInWithEmailAndPassword = () => {
     if (error !== "") setError("");
@@ -24,7 +30,7 @@ const LoginBox: React.FC = (props) => {
       .signInWithEmailAndPassword(email, password)
       .then((result) => {
         logging.info(result);
-        history.push("/");
+        // history.push("/");
       })
       .catch((error) => {
         logging.error(error);
