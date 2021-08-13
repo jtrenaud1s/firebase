@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
-import { Link, Redirect, useHistory } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { auth } from "../../config/firebase";
 import logging from "../../config/logging";
-import { useAuth } from "../../hooks/useAuth";
+import { useAuth } from "../../hooks/hooks";
 import Box from "../Box";
+import Loadscreen from "../Loadscreen";
 //import firebase from "firebase";
 //import { SignInWithSocialMedia } from "../../pages/auth/modules";
 
@@ -15,7 +16,6 @@ const LoginBox: React.FC = (props) => {
   const [error, setError] = useState<string>("");
 
   const [user] = useAuth();
-  const history = useHistory();
 
   if (user) {
     return <Redirect to="/" />;
@@ -30,7 +30,6 @@ const LoginBox: React.FC = (props) => {
       .signInWithEmailAndPassword(email, password)
       .then((result) => {
         logging.info(result);
-        // history.push("/");
       })
       .catch((error) => {
         logging.error(error);
@@ -91,6 +90,7 @@ const LoginBox: React.FC = (props) => {
           onClick={() => signInWithEmailAndPassword()}>
           Login
         </Button>
+        {authenticating && <Loadscreen></Loadscreen>}
 
         {/* <hr className="bg-info m-3" />
         <button

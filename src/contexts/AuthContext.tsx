@@ -1,26 +1,27 @@
-import React, { createContext, useEffect, useState } from 'react'
-import { auth, getUser } from '../config/firebase';
-import logging from '../config/logging';
-import AuthUser from '../types/AuthUser'
+import React, { createContext, useEffect, useState } from "react";
+import { auth, getUser } from "../config/firebase";
+import logging from "../config/logging";
+import AuthUser from "../interfaces/IAuthUser";
 
 export interface IAuthContext {
-  user: AuthUser | null
-  loading: boolean
+  user: AuthUser | null;
+  loading: boolean;
 }
 
-interface IProps {
+interface IProps {}
 
-}
-
-export const AuthContext = createContext<IAuthContext>({user: null, loading: true})
+export const AuthContext = createContext<IAuthContext>({
+  user: null,
+  loading: true,
+});
 
 const AuthProvider: React.FC<IProps> = (props) => {
-  const [user, setUser] = useState<AuthUser | null>(null)
-  const [loading, setLoading] = useState(true)
+  const [user, setUser] = useState<AuthUser | null>(null);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     auth.onAuthStateChanged((authUser) => {
-      setLoading(true)
-      logging.info("Log")
+      setLoading(true);
+      logging.info("Log");
       console.log(authUser);
       if (authUser) {
         getUser(authUser.uid)
@@ -40,29 +41,24 @@ const AuthProvider: React.FC<IProps> = (props) => {
               role: dbUser.role,
               roles: dbUser.roles,
             };
-            setUser(user)
-            setLoading(false)
+            setUser(user);
+            setLoading(false);
           });
       } else {
-        setUser(null)
-        setLoading(false)
+        setUser(null);
+        setLoading(false);
       }
     });
   }, []);
 
   const value = {
     user,
-    loading
-  }
-
-  if (loading) {
-    return <>loading...</>
-  }
+    loading,
+  };
+  
   return (
-    <AuthContext.Provider value={value}>
-      {props.children}
-    </AuthContext.Provider>
-  )
-}
+    <AuthContext.Provider value={value}>{props.children}</AuthContext.Provider>
+  );
+};
 
-export default AuthProvider
+export default AuthProvider;

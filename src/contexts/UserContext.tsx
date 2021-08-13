@@ -1,67 +1,46 @@
 import React, { createContext, useEffect, useState } from "react";
-import { auth, getUser } from "../config/firebase";
-import logging from "../config/logging";
-import AuthUser from "../types/AuthUser";
+import { Firestore } from "../config/firebase";
+import { IUser } from "../interfaces/IUser";
 
 export interface IUserContext {
-  user: User | null;
+  users: IUser[];
   loading: boolean;
 }
 
 interface IProps {}
 
-export const AuthContext = createContext<IUserContext>({
-  user: null,
+export const UserContext = createContext<IUserContext>({
+  users: [],
   loading: true,
 });
 
-const AuthProvider: React.FC<IProps> = (props) => {
-  const [user, setUsers] = useState<[User] | null>(null);
+const UserProvider: React.FC<IProps> = (props) => {
+  const [users, setUsers] = useState<IUser[] | []>([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    auth.onAuthStateChanged((authUser) => {
-      setLoading(true);
-      logging.info("Log");
-      console.log(authUser);
-      if (authUser) {
-        getUser(authUser.uid)
-          .get()
-          .then((snapshot) => {
-            const dbUser = snapshot.data();
-
-            if (!dbUser) throw new Error("User does not have a profile!");
-
-            const user: User = {
-              uid: authUser.uid,
-              email: authUser.email!,
-              emailVerified: authUser.emailVerified,
-              firstName: dbUser.firstName,
-              lastName: dbUser.lastName,
-              iNumber: dbUser.iNumber,
-              role: dbUser.role,
-              roles: dbUser.roles,
-            };
-            setUser(user);
-            setLoading(false);
-          });
-      } else {
-        setUser(null);
-        setLoading(false);
-      }
+    const unsubscribe = Firestore.collection("users").onSnapshot((snapshot) => {
+      const newUsers: IUser[] = snapshot.docs.map(
+        (doc) =>
+          ({
+            ...(doc.data() as IUser),
+            uid: doc.id,
+          } as IUser)
+      );
+      setUsers(newUsers)
+      setLoading(false)
     });
+
+    return unsubscribe;
   }, []);
 
-  const value = {
-    user,
+  const value: IUserContext = {
+    users,
     loading,
   };
 
-  if (loading) {
-    return <>loading...</>;
-  }
   return (
-    <AuthContext.Provider value={value}>{props.children}</AuthContext.Provider>
+    <UserContext.Provider value={value}>{props.children}</UserContext.Provider>
   );
 };
 
-export default AuthProvider;
+export default UserProvider;

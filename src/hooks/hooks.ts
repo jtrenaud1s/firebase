@@ -1,5 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import Firebase from "../config/firebase";
+import { AuthContext } from "../contexts/AuthContext";
+import { UserContext } from "../contexts/UserContext";
 
 export const useStuff = () => {
   const [stuff, setStuff] = useState<any>([]);
@@ -18,4 +20,14 @@ export const useStuff = () => {
   }, []);
 
   return stuff;
+};
+
+export const useAuth = () => {
+  const { user, loading } = useContext(AuthContext);
+  return [user, loading];
+};
+
+export const useUsers = () => {
+  const { users, loading } = useContext(UserContext);
+  return [users, loading];
 };

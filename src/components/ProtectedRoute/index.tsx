@@ -1,7 +1,8 @@
 import React from "react";
 import { Redirect } from "react-router-dom";
 import logging from "../../config/logging";
-import { useAuth } from "../../hooks/useAuth";
+import { useAuth } from "../../hooks/hooks";
+import Loadscreen from "../Loadscreen";
 
 export interface IProtectedRouteProps {}
 
@@ -12,7 +13,7 @@ const ProtectedRoute: React.FunctionComponent<IProtectedRouteProps> = (
   const { children } = props;
 
   if(loading) {
-    return <div>loading...</div>
+    return <Loadscreen />
   }
 
   if (!user) {
