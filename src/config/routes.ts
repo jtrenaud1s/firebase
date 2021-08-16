@@ -6,6 +6,8 @@ import LogoutPage from "../pages/auth/Logout";
 import RegisterPage from "../pages/auth/Register";
 import ResetPasswordPage from "../pages/auth/ResetPassword";
 import Home from "../pages/Home";
+import ProfilePage from "../pages/Profile";
+import UsersPage from "../pages/Users";
 
 const routes: IRoute[] = [
   {
@@ -56,6 +58,20 @@ const routes: IRoute[] = [
     component: ResetPasswordPage,
     name: "Reset Password Page",
     protected: false,
+  },
+  {
+    path: "/profile",
+    exact: true,
+    component: ProfilePage,
+    name: "Profile Page",
+    protected: true,
+  },
+  {
+    path: "/users",
+    exact: true,
+    component: UsersPage,
+    name: "User Management",
+    protected: true,
   },
 ];
 

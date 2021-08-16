@@ -27,7 +27,7 @@ const TopNav = () => {
         aria-label="Search"
       />
       <Nav>
-        <NavDropdown title="Account" id="basic-nav-dropdown" className="bg-dark ps-1">
+        <NavDropdown title="Account" id="basic-nav-dropdown" className="bg-dark px-3">
           <NavDropdown.Item as={Link} to="/profile">
             Profile
           </NavDropdown.Item>

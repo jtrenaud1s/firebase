@@ -1,7 +1,6 @@
-interface Role {
-  name: string
-  permissions: [string]
-  inherits: [string]
+export interface IRole {
+  id: string;
+  name: string;
+  permissions: string[];
+  inherits: string[];
 }
-
-export default Role

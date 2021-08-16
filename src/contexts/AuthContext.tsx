@@ -1,7 +1,7 @@
 import React, { createContext, useEffect, useState } from "react";
 import { auth, getUser } from "../config/firebase";
-import logging from "../config/logging";
 import AuthUser from "../interfaces/IAuthUser";
+import { IUser } from "../interfaces/IUser";
 
 export interface IAuthContext {
   user: AuthUser | null;
@@ -21,8 +21,6 @@ const AuthProvider: React.FC<IProps> = (props) => {
   useEffect(() => {
     auth.onAuthStateChanged((authUser) => {
       setLoading(true);
-      logging.info("Log");
-      console.log(authUser);
       if (authUser) {
         getUser(authUser.uid)
           .get()
@@ -32,14 +30,9 @@ const AuthProvider: React.FC<IProps> = (props) => {
             if (!dbUser) throw new Error("User does not have a profile!");
 
             const user: AuthUser = {
+              ...(dbUser as IUser),
               uid: authUser.uid,
-              email: authUser.email!,
               emailVerified: authUser.emailVerified,
-              firstName: dbUser.firstName,
-              lastName: dbUser.lastName,
-              iNumber: dbUser.iNumber,
-              role: dbUser.role,
-              roles: dbUser.roles,
             };
             setUser(user);
             setLoading(false);
@@ -55,7 +48,7 @@ const AuthProvider: React.FC<IProps> = (props) => {
     user,
     loading,
   };
-  
+
   return (
     <AuthContext.Provider value={value}>{props.children}</AuthContext.Provider>
   );

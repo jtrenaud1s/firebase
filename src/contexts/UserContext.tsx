@@ -15,7 +15,7 @@ export const UserContext = createContext<IUserContext>({
 });
 
 const UserProvider: React.FC<IProps> = (props) => {
-  const [users, setUsers] = useState<IUser[] | []>([]);
+  const [users, setUsers] = useState<IUser[]>([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     const unsubscribe = Firestore.collection("users").onSnapshot((snapshot) => {

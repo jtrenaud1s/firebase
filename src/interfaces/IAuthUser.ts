@@ -1,12 +1,7 @@
-interface AuthUser {
-  uid: string;
-  email?: string;
+import { IUser } from "./IUser";
+
+interface AuthUser extends IUser {
   emailVerified: boolean;
-  firstName: string;
-  lastName: string;
-  iNumber: number;
-  role: string;
-  roles: [string];
 }
 
 export default AuthUser
