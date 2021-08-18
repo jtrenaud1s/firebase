@@ -19,7 +19,7 @@ const UserList = (props: IProps) => {
   return (
     <Row className="mt-2">
       {users.map((user) => (
-        <Col sm={12} md={6} lg={3}>
+        <Col key={user.uid} sm={12} md={6} lg={3}>
           <UserItem user={user} />
         </Col>
       ))}

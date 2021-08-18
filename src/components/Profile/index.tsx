@@ -4,16 +4,16 @@ import { IUser } from "../../interfaces/IUser";
 import avatar from "../../assets/img/avatar.jpg";
 
 interface IProps {
-  user: IUser
-  size?: string
+  user: IUser;
+  size?: string;
 }
 
-const Profile: React.FC<IProps> = ({user, size = "64px"}: IProps) => {
-  const {getRole} = useRoles()
-  const role = getRole(user.role)
-  if (role === null) {
-    throw new Error('Role doesnt exist!')
-  }
+const Profile: React.FC<IProps> = ({ user, size = "64px" }: IProps) => {
+  const { getRole } = useRoles();
+  const role = getRole(user.role);
+
+  if (role === null) throw new Error("Role doesnt exist!");
+
   return (
     <div className="text-center p-2">
       <img
@@ -23,7 +23,10 @@ const Profile: React.FC<IProps> = ({user, size = "64px"}: IProps) => {
         width={size}
         height={size}
       />
-      <div className="fw-bold">{`${user.firstName} ${user.lastName}`}</div>
+      <div className="fw-bold">
+        {`${user.firstName} ${user.lastName}`}{" "}
+        {user.iNumber! > 0 ? <span>{" "}-{" "}{user.iNumber}</span> : <span>Score</span>}
+      </div>
       <small>{role.name}</small>
     </div>
   );

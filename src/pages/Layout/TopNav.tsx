@@ -27,14 +27,9 @@ const TopNav = () => {
         aria-label="Search"
       />
       <Nav>
-        <NavDropdown title="Account" id="basic-nav-dropdown" className="bg-dark px-3">
-          <NavDropdown.Item as={Link} to="/profile">
-            Profile
-          </NavDropdown.Item>
-          <NavDropdown.Item as={Link} to="/change">
-            Change Password
-          </NavDropdown.Item>
-        </NavDropdown>
+        <Nav.Link as={Link} className="px-3 text-nowrap" to="profile">
+          Account
+        </Nav.Link>
         <Nav.Link as={Link} className="px-3 text-nowrap" to="logout">
           Sign out
         </Nav.Link>

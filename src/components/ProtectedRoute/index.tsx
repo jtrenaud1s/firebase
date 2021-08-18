@@ -13,7 +13,7 @@ const ProtectedRoute: React.FunctionComponent<IProtectedRouteProps> = (
   const { children } = props;
 
   if(loading) {
-    return <Loadscreen />
+    return <Loadscreen text="Loading"/>
   }
 
   if (!user) {

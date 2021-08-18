@@ -90,7 +90,6 @@ const LoginBox: React.FC = (props) => {
           onClick={() => signInWithEmailAndPassword()}>
           Login
         </Button>
-        {authenticating && <Loadscreen></Loadscreen>}
 
         {/* <hr className="bg-info m-3" />
         <button

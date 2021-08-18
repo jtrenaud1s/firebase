@@ -2,17 +2,26 @@ import React from 'react'
 import { Spinner } from 'react-bootstrap';
 import styled from 'styled-components'
 
+interface IProps {
+  text?: string
+}
+
 const Overlay = styled.div.attrs({ className: "overlay" })`
   height: 100%;
   width: 100%;
-  position: fixed;
+  position: absolute;
   z-index: 1;
   left: 0;
   top: 0;
+  bottom: 0;
   background-color: rgb(0, 0, 0);
-  background-color: rgba(0, 0, 0, 0.9);
+  background-color: rgba(0, 0, 0, 0.6);
   overflow-x: hidden;
   transition: 0.5s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 
   .overlay-enter {
     opacity: 0;
@@ -31,20 +40,18 @@ const Overlay = styled.div.attrs({ className: "overlay" })`
 
   /* Position the content inside the overlay */
   .overlay-content {
-    position: relative;
-    top: 25%; /* 25% from the top */
+    top: 50%; /* 25% from the top */
     width: 100%; /* 100% width */
     text-align: center; /* Centered text/links */
-    margin-top: 30px; /* 30px top margin to avoid conflict with the close button on smaller screens */
   }
 `;
 
-const Loadscreen = () => {
-  console.log("Loadscreen rendered")
+const Loadscreen = (props: IProps) => {
   return (
     <Overlay>
-      <div className="overlay-content">
+      <div className="overlay-content ">
         <Spinner animation="border" variant="light" />
+        {props.text && <div className="display-6 text-light">{props.text}</div>}
       </div>
     </Overlay>
   );
