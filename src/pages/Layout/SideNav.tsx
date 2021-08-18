@@ -37,6 +37,33 @@ const SideNav = () => {
             Recruitment
           </Nav.Link>
         )}
+        {userHasPermission(user as IUser, "studyhours") && (
+          <Nav.Link
+            aria-current="page"
+            as={NavLink}
+            to="/recruitment"
+            activeClassName="active">
+            Study Hours
+          </Nav.Link>
+        )}
+        {userHasPermission(user as IUser, "committees") && (
+          <Nav.Link
+            aria-current="page"
+            as={NavLink}
+            to="/committees"
+            activeClassName="active">
+            Committees
+          </Nav.Link>
+        )}
+        {userHasPermission(user as IUser, "merch") && (
+          <Nav.Link
+            aria-current="page"
+            as={NavLink}
+            to="/merch"
+            activeClassName="active">
+            Merch
+          </Nav.Link>
+        )}
         <h6 className="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
           <span>Administration</span>
         </h6>

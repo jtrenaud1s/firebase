@@ -5,7 +5,6 @@ import { auth } from "../../config/firebase";
 import logging from "../../config/logging";
 import { useAuth } from "../../hooks/hooks";
 import Box from "../Box";
-import Loadscreen from "../Loadscreen";
 //import firebase from "firebase";
 //import { SignInWithSocialMedia } from "../../pages/auth/modules";
 
