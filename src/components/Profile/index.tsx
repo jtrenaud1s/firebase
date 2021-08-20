@@ -1,23 +1,33 @@
 import React from "react";
+import { useRoles } from "../../hooks/hooks";
+import { IUser } from "../../interfaces/IUser";
+import avatar from "../../assets/img/avatar.jpg";
 
 interface IProps {
-  img: string;
-  name: string | "Guest";
-  role: string;
+  user: IUser;
+  size?: string;
 }
 
-const Profile: React.FC<IProps> = ({img, name = "Guest", role}) => {
+const Profile: React.FC<IProps> = ({ user, size = "64px" }: IProps) => {
+  const { getRole } = useRoles();
+  const role = getRole(user.role);
+
+  if (role === null) throw new Error("Role doesnt exist!");
+
   return (
     <div className="text-center p-2">
       <img
-        src={img}
+        src={user.profilePicture || avatar}
         className="img-fluid rounded-circle mb-2"
-        alt={name}
-        width="64px"
-        height="64px"
+        alt={`${user.firstName} ${user.lastName}`}
+        width={size}
+        height={size}
       />
-      <div className="fw-bold">{name}</div>
-      <small>Active</small>
+      <div className="fw-bold">
+        {`${user.firstName} ${user.lastName}`}{" "}
+        {user.iNumber! > 0 ? <span>{" "}-{" "}{user.iNumber}</span> : <span>Score</span>}
+      </div>
+      <small>{role.name}</small>
     </div>
   );
 };
